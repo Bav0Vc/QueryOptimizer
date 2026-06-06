@@ -1,5 +1,6 @@
 .env
 .claude
 claude.md
+roadmap.md
 /backend/vendor
 /frontend/node_modules
