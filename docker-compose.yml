@@ -1,0 +1,44 @@
+services:
+  # 1. DB
+  database:
+    image: mysql:8.0
+    container_name: query-optimizer-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: employees
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # 2. Laravel Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: query-optimizer-backend
+    restart: always
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      - database
+
+  # 3. Vue.js Frontend (Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: query-optimizer-frontend
+    ports:
+      - '3000:5173'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:

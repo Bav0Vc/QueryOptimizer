@@ -1,0 +1,5 @@
+.env
+.claude
+claude.md
+/backend/vendor
+/frontend/node_modules
